@@ -8,8 +8,8 @@ from numpy import pi as π
 # -------------------------------------------------------- #
 
 # Time in hours
-T = 24                        # Final time
-num_steps = 240 *2            # Number of time steps
+T = 24                          # Final time
+num_steps = 240 *2              # Number of time steps
 #dt = T / num_steps             # Time step size
 dt = 0.01
 
@@ -37,21 +37,21 @@ DLx = 7e-8                      # Diffusion coefficient of Zn species in free so
 DLy = 7e-8                      # Diffusion of coefficient of DMA in free solution
 Dx = DLx * θ * f                # Diffusion coefficient for X
 Dy = DLy * θ * f                # Diffusion coefficient for Y
-bx = 1.0                        # Zn buffer power                   [was 1?] 200
+bx = 200.0                      # Zn buffer power
 by = 1.0                        # DMA buffer power
 kx = 5e3                        # Zn-DMA interaction coefficient
 ky = 0.0                        # DMA-Zn interaction coefficient
-α  = 1.5 * 1e-2                 # Zn absorbing power of root        [was 1.5e-2?] 1.5e-3
+α  = 1.5 * 1e-2                 # Zn absorbing power of root        [was 1.5e-2 in lastest code] 1.5e-3
 Fy = 4.0 * 1e-11                # Rate of DMA exudation over 24 h
-ν  = 0.0                        # Water flux (agreed)
+ν  = 1e-6                       # Water flux (agreed to not include)
 ρ  = 1.0                        # Soil bulk density
 
 # Constants for DMA decomposition
-Vmax = Constant(2.5 * 1e-9)
-KM = Constant(100 * 1e-6)
+Vmax = 2.5 * 1e-9
+KM = 100 * 1e-6
 
 # Initial values
-X0 = 1e-11                       # [was 1e-11?] 1e-8
+X0 = 1e-11                       # [was 1e-11  in lastest code] 1e-8
 Y0 = 0.0
 
 
@@ -70,10 +70,10 @@ Y0 = 0.0
 L_0 = L_0/ε_z                                       # non-dim L_0
 
 KM = Constant(KM/ε_y)                               # non-dim KM
-Fy = Constant(Fy * ε_t / (24 * ε_r * ε_y) )         # non-dim Fy / 24
+Fy = Constant(Fy * ε_t / (24 * ε_r * ε_y) )         # non-dim Fy / 24 [Divided by 24 in lastest code]
 α  = Constant(α * ε_t/ε_r)                          # non-dim α
 G  = G * ε_t / ε_z                                  # non-dim G
-ρ  = Constant(ρ * Vmax * ε_t/ε_y)                   # non-dim Vmax or ρ
+ρ  = Constant(ρ * Vmax * ε_t/ε_y)                   # non-dim Vmax or ρ, replaces hat_Vmax
 
 
 Dx = Dx * ε_t                                       # Pre-scaling
@@ -86,7 +86,7 @@ Dy = Constant([ [Dy/(ε_r**2),0], [0,Dy/(ε_z**2)] ]) # Scale in r and z
 ν_z = Constant(ν / ε_z)                             # Scale in z
 
 
-kbx = Constant(kx * bx)                             # kx * bx
+kbx = Constant(ε_y * kx * bx)                       # kx * bx    [was 1 in lastest code but works the same]
 kby = Constant(ky * by)                             # ky * by (is zero: not included)
 kx = Constant(ε_y * kx)                             # non-dim kx
 ky = Constant(ε_x * ky)                             # non-dim ky
