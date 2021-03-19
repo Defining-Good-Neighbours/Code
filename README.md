@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/329277265.svg)](https://zenodo.org/badge/latestdoi/329277265)
+
 # Defining Good Neighbours: Modelling Root Traits for Beneficial Plant-Plant Interactions - Code Repository
 
 In this repository you can find `FEniCS` scripts for
